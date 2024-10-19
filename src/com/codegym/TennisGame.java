@@ -1,63 +1,66 @@
 package com.codegym;
 
 public class TennisGame {
+    public static final int love = 0;
+    public static final int fifteen = 1;
+    public static final int thirty = 2;
+    public static final int forty = 3;
 
-    public static String getScore(String player1Name, String player2Name, int m_score1, int m_score2) {
-        String score = "";
-        int tempScore=0;
-        if (m_score1==m_score2)
-        {
-            switch (m_score1)
-            {
-                case 0:
-                    score = "Love-All";
-                    break;
-                case 1:
-                    score = "Fifteen-All";
-                    break;
-                case 2:
-                    score = "Thirty-All";
-                    break;
-                case 3:
-                    score = "Forty-All";
-                    break;
-                default:
-                    score = "Deuce";
-                    break;
+    public static String getScore(String player1Name, String player2Name, int player1Score, int player2Score) {
+        String result = "";
+        boolean scoreGreaterThanForty = player1Score > forty || player2Score > forty;
 
-            }
+        if (player1Score == player2Score) {
+            result = deuce(player1Score);
+        } else if (scoreGreaterThanForty) {
+            result = advantageOrWin(player1Score, player2Score);
+        } else {
+            result += getScoreName(player1Score);
+            result += "-";
+            result += getScoreName(player2Score);
         }
-        else if (m_score1>=4 || m_score2>=4)
-        {
-            int minusResult = m_score1-m_score2;
-            if (minusResult==1) score ="Advantage player1";
-            else if (minusResult ==-1) score ="Advantage player2";
-            else if (minusResult>=2) score = "Win for player1";
-            else score ="Win for player2";
+
+        return result;
+    }
+
+    public private String deuce(int score) {
+        switch (score) {
+            case love:
+                return "Love-All";
+            case fifteen:
+                return "Fifteen-All";
+            case thirty:
+                return "Thirty-All";
+            case forty:
+                return "Forty-All";
+            default:
+                return "Deuce";
         }
-        else
-        {
-            for (int i=1; i<3; i++)
-            {
-                if (i==1) tempScore = m_score1;
-                else { score+="-"; tempScore = m_score2;}
-                switch(tempScore)
-                {
-                    case 0:
-                        score+="Love";
-                        break;
-                    case 1:
-                        score+="Fifteen";
-                        break;
-                    case 2:
-                        score+="Thirty";
-                        break;
-                    case 3:
-                        score+="Forty";
-                        break;
-                }
-            }
+    }
+
+    public private String advantageOrWin(int player1Score, int player2Score) {
+        int minusScore = player1Score - player2Score;
+        if (minusResult == 1) {
+            return "Advantage player1";
+        } else if (minusResult == -1) {
+            return "Advantage player2";
+        } else if (minusResult >= 2) {
+            return "Win for player1";
+        } else {
+            return "Win for player2";
         }
-        return score;
+    }
+
+    public private String getScoreName(int score) {
+        switch (score) {
+            case love:
+                return "Love";
+            case fifteen:
+                return "Fifteen";
+            case thirty:
+                return "Thirty";
+            case forty:
+                return "Forty";
+        }
     }
 }
